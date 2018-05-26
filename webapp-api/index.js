@@ -1,32 +1,33 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const DB = require('./lib/db/index');
+const Logger = require('./lib/log/Logger')();
+const Spinner = Logger.spinner();
 
-const PoiController = require('./lib/poi/poiController');
+const PeopleController = require('./lib/poi/peopleController');
 
 const setGlobalHeaders = async (req, res, next) => {
   res.header('Content-Type', 'application/json');
   next();
 };
 
-const initMessageApi = async () => {
+const initEndpoints = async () => {
   let app = express();
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
 
   app.get('/*', setGlobalHeaders);
 
-  const base = '/people';
+  app.get('/people', PeopleController.onGet);
 
-  app.get(base + '/:source/:id', PoiController.onGet);
-
-  app.listen(process.env.PORT || 8082);
+  app.listen(process.env.PORT || 8080);
 };
 
 const init = async () => {
   Logger.info('Initializing app');
   Spinner.start('Connecting to Database');
-  await DB.connect();
+  Spinner.succeed();
+  await PeopleController.init();
+  await initEndpoints();
 };
 
 (async () => {

@@ -1,4 +1,4 @@
-const messageService = require('./messageService');
+const messageService = require('./peopleService');
 
 const init = async () => {
 };

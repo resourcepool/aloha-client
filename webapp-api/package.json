@@ -1,7 +1,7 @@
 {
-  "name": "mambo-tile-api",
+  "name": "aloha-client-webapp-api",
   "version": "1.0.0-SNAPSHOT",
-  "description": "Tile server for mambo using tilestrata",
+  "description": "Aloha Safety box is a project allowing people to find each other and make sure their relatives are safe and sound. It is meant to be used after a natural disaster when networks are down. It works on Embedded tiny computers such as Raspberry Pis and uses LoRa in distributed mode.",
   "main": "index.js",
   "dependencies": {
     "axios": "^0.18.0",
@@ -20,6 +20,6 @@
     "start": "node $NODE_DEBUG_OPTION index",
     "test": "echo \"No test specified\" && exit 0"
   },
-  "author": "HAND Team",
-  "license": "Apache 2.0"
+  "author": "Resourcepool",
+  "license": "MIT"
 }
