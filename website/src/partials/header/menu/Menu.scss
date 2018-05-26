@@ -1,0 +1,16 @@
+@import "../../../theme/abstracts/variables";
+@import "../../../theme/abstracts/media";
+
+#menu {
+  position: absolute;
+  top: 0;
+
+  button {
+    padding-top: 5px;
+    color: $white;
+  }
+  a {
+    color: black;
+  }
+
+}

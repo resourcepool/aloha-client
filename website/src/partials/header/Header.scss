@@ -1,0 +1,131 @@
+@import "../../theme/abstracts/variables";
+@import "../../theme/abstracts/media";
+
+// Export to js
+:export {
+  headerLargeHeight: $header-large-height;
+  headerShrinkHeight: $header-shrink-height;
+}
+
+#header {
+  position: relative;
+  .name {
+    color: white;
+  }
+  &.shrink {
+    min-height: $header-large-height;
+    z-index: 10;
+  }
+  .headerContainer {
+    background-color: $primary-dark-color;
+    width: 100%;
+
+    #headerMetaContainer {
+      #metadata {
+        position: relative;
+      }
+      .catchline {
+        color: $text-color-secondary-light;
+        font-style: italic;
+      }
+    }
+
+    &.shrink {
+      position: fixed;
+      top: 0;
+      height: $header-shrink-height;
+      #metadata {
+        margin: -8px 0 0 $big-button-standard-height;
+        height: $big-button-standard-height;
+        .avatar {
+          position: absolute;
+          right: 8px;
+          top: 16px;
+          width: $small-button-standard-height;
+          height: $small-button-standard-height;
+        }
+        .name {
+          position: absolute;
+          font-size: $text-size-md;
+          left: 10px;
+          bottom: 11px;
+        }
+        .catchline {
+          position: absolute;
+          font-size: $text-size-sm;
+          font-style: italic;
+          text-align: right;
+          left: 120px;
+          right: $big-button-standard-height;
+          bottom: 11px;
+          @media (max-width: 512px) {
+            visibility: hidden;
+          }
+        }
+      }
+    }
+
+  }
+
+}
+
+@media #{$handheld} {
+  .headerContainer {
+    &.expand {
+      min-height: $header-large-height;
+      #metadata {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        vertical-align: middle;
+        padding-top: 10px;
+        * {
+          margin-bottom: 6px;
+        }
+        .avatar {
+          width: 80px;
+          height: 80px;
+        }
+        .name {
+          font-size: $text-size-xl;
+          flex: auto;
+        }
+        .catchline {
+          font-size: $text-size-md;
+        }
+      }
+    }
+  }
+}
+
+@media #{$computer} {
+  .headerContainer {
+    &.expand {
+      padding-top: 32px;
+      min-height: $header-large-height;
+      #metadata {
+        margin-left: 150px;
+        width: 50%;
+        .avatar {
+          position: absolute;
+          width: 100px;
+          height: 100px;
+        }
+        .name {
+          position: absolute;
+          font-size: $text-size-xxl;
+          left: 120px;
+          top: 10px;
+        }
+        .catchline {
+          position: absolute;
+          font-size: $text-size-xl;
+          left: 150px;
+          top: 50px;
+        }
+      }
+    }
+  }
+
+}

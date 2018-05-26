@@ -1,0 +1,41 @@
+@import "../../../theme/abstracts/variables";
+@import "../../../theme/abstracts/media";
+
+.avatar {
+  flex: 0 0 auto;
+  margin-right: $spacing-unit * 2;
+}
+
+.dates {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  margin-top: ($spacing-unit * -1);
+  margin-right: ($spacing-unit * -2);
+}
+
+.content {
+  flex: 1 1 auto;
+}
+
+.title {
+  padding-right: 10px;
+}
+
+.subheader {
+  padding-top: 2px;
+  font-style: italic;
+  color: $dark-grey !important;
+}
+
+@media #{$handheld} {
+  .title {
+    font-size: $text-size-md !important;
+  }
+  .dates {
+    margin-right: ($spacing-unit * -1);
+    font-size: $text-size-xs !important;
+  }
+  .subheader {
+    font-size: $text-size-xs !important;
+  }
+}

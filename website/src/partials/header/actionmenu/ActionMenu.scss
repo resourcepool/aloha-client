@@ -1,0 +1,54 @@
+@import "../../../theme/abstracts/_variables";
+@import "../../../theme/abstracts/_media";
+
+#actionMenu {
+  z-index: 10;
+  &.expand {
+    position: absolute;
+  }
+  &.shrink {
+    position: fixed;
+    top: 8px;
+  }
+  @media #{$handheld} {
+    &.expand {
+      width: 100%;
+      text-align: center;
+      top: 148px;
+    }
+    &.shrink {
+      display: none;
+    }
+  }
+
+  @media #{$computer-big} {
+    &.expand {
+      right: 228px;
+      top: 138px;
+    }
+    &.shrink {
+      left: 50%;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  @media #{$computer-small} {
+    &.expand {
+      right: 78px;
+      top: 138px;
+    }
+
+    &.shrink {
+      left: 50%;
+      transform: translate(-50%, 0);
+    }
+  }
+
+  button, a {
+    margin-left: 28px;
+  }
+
+  a:hover {
+    color: black;
+  }
+}

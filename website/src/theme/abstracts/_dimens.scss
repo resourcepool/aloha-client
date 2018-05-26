@@ -1,0 +1,28 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+// SIZES
+$text-size-xxl: 1.8em;
+$text-size-xl: 1.3em;
+$text-size-l: 1.2em;
+$text-size-md: 1.1em;
+$text-size-sm: 0.95em;
+$text-size-xs: 0.6em;
+
+$line-height-xl: 1.7em;
+$line-height-l: 1.5em;
+$line-height-md: 1.4em;
+$line-height-sm: 1.35em;
+$line-height-xs: 1.17em;
+
+$header-large-height: 200px;
+$header-shrink-height: 56px;
+
+$big-button-standard-height: 56px;
+$button-standard-height: 48px;
+$small-button-standard-height: 40px;
+
+$max-width: 1180px; // Max size for .container class block
+
+$spacing-unit: 8px;

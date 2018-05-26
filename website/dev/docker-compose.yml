@@ -1,0 +1,21 @@
+version: '3'
+
+networks:
+  bridged:
+    driver: bridge
+
+services:
+  website:
+    container_name: aloha-client-website
+    image: resourcepool/aloha-client-website:dev
+    networks:
+      - bridged
+    volumes:
+      - ../:/usr/src/app
+    ports:
+      - "3000:3000"
+    logging:
+      options:
+        max-size: 4m
+        max-file: "10"
+    restart: unless-stopped

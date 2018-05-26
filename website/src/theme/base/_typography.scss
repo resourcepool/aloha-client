@@ -1,0 +1,64 @@
+@import "../abstracts/palette";
+@import "../abstracts/dimens";
+
+$font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+$font-weight-bold: 500;
+$font-weight-normal: 400;
+
+/**
+ * Basic typography style for copy text
+ */
+body {
+  font-family: $font-family;
+  color: black;
+}
+
+pre {
+  font-family: $font-family;
+}
+
+.headline {
+  font-size: $text-size-xl;
+  font-weight: $font-weight-normal;
+  font-family: $font-family;
+  line-height: $line-height-md;
+  color: $text-color-primary;
+}
+
+.title {
+  font-size: $text-size-l;
+  font-weight: $font-weight-bold;
+  font-family: $font-family;
+  line-height: $line-height-xs;
+  color: $text-color-primary;
+}
+
+.subheading {
+  font-size: $text-size-md;
+  font-weight: $font-weight-bold;
+  font-family: $font-family;
+  line-height: $line-height-l;
+  color: $text-color-secondary;
+}
+
+.body2 {
+  font-size: $text-size-sm;
+  font-weight: $font-weight-bold;
+  font-family: $font-family;
+  line-height: $line-height-xl;
+  color: $text-color-primary;
+}
+
+.body1 {
+  font-size: $text-size-sm;
+  font-weight: $font-weight-normal;
+  font-family: $font-family;
+  line-height: $line-height-md;
+  color: $text-color-primary;
+}
+
+:export {
+  fontFamily: $font-family;
+  fontWeightBold: 500;
+  fontWeightNormal: 400;
+}

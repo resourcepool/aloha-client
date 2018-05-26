@@ -1,0 +1,30 @@
+@import "../../../theme/abstracts/media";
+
+.card {
+  margin: 10px;
+}
+
+.techenv {
+  padding: 10px 40px 15px;
+}
+
+@media #{$handheld} {
+  .card {
+    margin: 10px 0;
+  }
+  .techenv {
+    padding: 10px 20px 15px;
+  }
+}
+
+.media {
+  height: 194px;
+}
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  > * {
+    margin: 2px;
+  }
+}

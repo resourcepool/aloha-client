@@ -1,0 +1,19 @@
+@import "dimens";
+
+// Export to js
+:export {
+  textSizeXS: $text-size-xs;
+  textSizeSM: $text-size-sm;
+  textSizeMD: $text-size-md;
+  textSizeL: $text-size-l;
+  textSizeXL: $text-size-xl;
+  textSizeXXL: $text-size-xxl;
+
+  lineHeightXS: $line-height-xs;
+  lineHeightSM: $line-height-sm;
+  lineHeightMD: $line-height-md;
+  lineHeightL: $line-height-l;
+  lineHeightXL: $line-height-xl;
+
+  spacingUnit: $spacing-unit;
+}

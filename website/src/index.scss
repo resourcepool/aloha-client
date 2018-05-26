@@ -1,0 +1,37 @@
+:global {
+  @import "theme/theme"; /**
+   * Set up a decent box model on the root element
+   */
+  html {
+    box-sizing: border-box;
+    background-color: $primary-color;
+    font-size: $text-size-sm;
+    font-family: $font-family;
+    color: red;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  .left {
+    text-align: left;
+  }
+
+  a {
+    text-decoration: none;
+    color: $primary-dark-color;
+    font-weight: bold;
+    &:hover {
+      color: $primary-color;
+    }
+  }
+
+  img {
+    max-width: 100%;
+  }
+}

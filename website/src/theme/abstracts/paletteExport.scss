@@ -1,0 +1,19 @@
+@import "palette";
+
+:export {
+  colorPrimary: $primary-color;
+  colorPrimaryDark: $primary-dark-color;
+  colorPrimaryLight: $primary-light-color;
+  colorSecondary: $secondary-color;
+  colorSecondaryDark: $secondary-dark-color;
+  colorSecondaryLight: $secondary-light-color;
+
+  textColorPrimary: $text-color-primary;
+  textColorPrimaryLight: $text-color-primary-light;
+  textColorSecondary: $text-color-secondary;
+  textColorSecondaryLight: $text-color-secondary-light;
+
+  textColorDisabled: $text-color-disabled;
+  textColorHint: $text-color-hint;
+  textColorError: $text-color-error;
+}
