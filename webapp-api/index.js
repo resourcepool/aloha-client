@@ -15,9 +15,13 @@ const initEndpoints = async () => {
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({extended: true}));
 
+  // GET
   app.get('/*', setGlobalHeaders);
-
   app.get('/people', PeopleController.onGet);
+
+  // POST
+  app.post('/*', setGlobalHeaders);
+  app.post('/people', PeopleController.onPost)
 
   app.listen(process.env.PORT || 8080);
 };

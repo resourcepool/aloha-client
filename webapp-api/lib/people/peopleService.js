@@ -80,8 +80,18 @@ const find = async (limit, offset, search) => {
   return wrapper;
 };
 
+const insert = async (reqBody) => {
+
+  let params = [reqBody.id, reqBody.firstName, reqBody.lastName, reqBody.status, reqBody.description, reqBody.tags]
+  let stmt  = db.prepare("INSERT INTO person VALUES (?, ?, ?, ?, ?, ?)");
+
+  stmt.run(params, () => {
+    console.log("INSERTED");
+  })
+};
 
 module.exports = {
   init,
-  find
+    find,
+    insert
 };

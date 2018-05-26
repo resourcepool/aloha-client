@@ -15,9 +15,20 @@ const onGet = async (req, res) => {
   res.send(result);
 };
 
+const onPost = async (req, res) => {
+  try {
+      await PeopleService.insert(req.body);
+      res.send('OK');
+  } catch(e) {
+    console.log(e);
+    res.send('NOT OK');
+  }
+}
+
 module.exports = {
   init,
   onGet,
+    onPost,
   DEFAULT_OFFSET,
   DEFAULT_LIMIT
 };
