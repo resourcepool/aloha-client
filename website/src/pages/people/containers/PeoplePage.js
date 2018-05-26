@@ -26,7 +26,7 @@ class PeoplePage extends Component {
     }
     return <div className="people-container">
       <Typography variant={'headline'}>
-        <FormattedMessage id="lbl.people"/>
+        <FormattedMessage id="msg.findpeople"/>
       </Typography>
       <br/>
 
