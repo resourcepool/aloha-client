@@ -1,0 +1,25 @@
+{
+  "name": "mambo-tile-api",
+  "version": "1.0.0-SNAPSHOT",
+  "description": "Tile server for mambo using tilestrata",
+  "main": "index.js",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "chalk": "^2.3.2",
+    "express": "^4.16.2",
+    "fetch": "^1.1.0",
+    "node-cron": "^1.2.1",
+    "ora": "^2.0.0",
+    "sharp": "^0.19.1",
+    "sqlite3": "^4.0.0",
+    "stream-transform": "^1.0.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node $NODE_DEBUG_OPTION index",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "author": "HAND Team",
+  "license": "Apache 2.0"
+}
