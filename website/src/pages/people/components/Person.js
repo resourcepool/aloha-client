@@ -1,19 +1,21 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 import Skill from '../../../partials/skill/Skill';
-import Card, { CardContent } from '@material-ui/core/Card';
-import ProjectHeader from './PersonHeader';
-import ProjectDescription from './PersonDescription';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import PersonHeader from './PersonHeader';
 import Avatar from '@material-ui/core/Avatar';
 import IconButton from '@material-ui/core/IconButton';
+//import PersonIcon from '@material-ui/icons/PersonPinCircle';
 import Typography from '@material-ui/core/Typography';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Divider from '@material-ui/core/Divider';
 
 import styles from './Person.scss';
 
-class Project extends Component {
+class Person extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -31,8 +33,9 @@ class Project extends Component {
 
   getSkillset(project) {
     let result = [];
-    project.skills.forEach((s, i) => {
-      result.push(<Skill label={s} key={i} />);
+    project.tags.forEach((s, i) => {
+      console.log(s);
+      result.push(<Skill label={s} key={i}/>);
     });
     return result;
   }
@@ -41,39 +44,36 @@ class Project extends Component {
     return (
       <div>
         <Card className={styles.card}>
-          <ProjectHeader
+          <PersonHeader
             avatar={
-              this.props.data.logo ? (
-                <Avatar
-                  aria-label="Recipe"
-                  className={styles.avatar}
-                  src={'/images/' + this.props.data.logo}
-                />
-              ) : (
-                <Avatar>{this.getAvatar(this.props.data.title)}</Avatar>
-              )
+              <Avatar>{this.getAvatar(this.props.data.firstName + ' ' + this.props.data.lastName)}</Avatar>
             }
             action={
               <IconButton>
-                <MoreVertIcon />
+                <MoreVertIcon/>
               </IconButton>
             }
-            title={this.props.data.title}
-            website={this.props.data.website}
+            name={this.props.data.firstName + ' ' + this.props.data.lastName}
+            status={this.props.data.status}
           />
-          <Divider />
+          <Divider/>
           <CardContent>
-            <ProjectDescription description={this.props.data.description} />
+            {this.props.data.description}
           </CardContent>
-          <Divider />
-          <div className={styles.techenv}>
-            <Typography variant="body2" component="div">
-              Technical environment
-            </Typography>
-            <div className={styles.skills}>
-              {this.getSkillset(this.props.data)}
-            </div>
-          </div>
+          <Divider/>
+          {
+            this.props.data.tags && this.props.data.tags.length > 1 ?
+              <div className={styles.techenv}>
+                <Typography variant="body2" component="div">
+                  Tags
+                </Typography>
+                <div className={styles.skills}>
+                  {this.getSkillset(this.props.data)}
+                </div>
+              </div>
+              :
+              <div></div>
+          }
         </Card>
       </div>
     );
@@ -81,8 +81,8 @@ class Project extends Component {
 }
 
 // TypeChecking for properties
-Project.propTypes = {
+Person.propTypes = {
   data: PropTypes.object.isRequired
 };
 
-export default injectIntl(Project);
+export default injectIntl(Person);

@@ -13,7 +13,7 @@ const loadPeopleAsync = (offset, limit) => ({
       LOAD_PEOPLE_SUCCESS,
       LOAD_PEOPLE_FAILURE
     ],
-    endpoint: `/people?limit=${limit}&offset=${offset}`,
+    endpoint: `people?limit=${limit}&offset=${offset}`,
     method: 'GET'
   }
 });

@@ -19,8 +19,8 @@ function PersonHeader(props) {
     avatar,
     className: classNameProp,
     component: Component,
-    website,
-    title
+    status,
+    name
   } = props;
 
   const classes = Object.assign(props.classes, styleSass);
@@ -32,9 +32,9 @@ function PersonHeader(props) {
         <Typography
           variant={'headline'}
           component="span"
-          className={classes.title}
+          className={classes.name}
         >
-          {title}
+          {name}
         </Typography>
         <Typography
           variant={'body1'}
@@ -42,7 +42,7 @@ function PersonHeader(props) {
           color="textSecondary"
           className={classes.subheader}
         >
-          {website}
+          {status}
         </Typography>
       </div>
     </Component>
@@ -68,8 +68,8 @@ PersonHeader.propTypes = {
    */
   component: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
 
-  title: PropTypes.string.isRequired,
-  website: PropTypes.string
+  name: PropTypes.string.isRequired,
+  status: PropTypes.string.isRequired
 };
 
 PersonHeader.defaultProps = {

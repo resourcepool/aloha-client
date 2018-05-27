@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { loadPeople } from '../../../actions/aloha';
@@ -17,12 +18,13 @@ class PeoplePage extends Component {
   }
 
   render() {
+    let results = [];
     if (this.props.people && Object.keys(this.props.people).length > 0) {
-      let result = [];
       for (let k in Object.keys(this.props.people)) {
-        result.push(<Person data={this.props.people[k]} key={k} />);
+        results.push(<Person data={this.props.people[k]} key={k} />);
       }
-      return result;
+    } else {
+      results = 'Aucun résultat ne correspond à vos critères';
     }
     return <div className="people-container">
       <Typography variant={'headline'}>
@@ -39,6 +41,7 @@ class PeoplePage extends Component {
       />
 
       <br/>
+      {results}
       <br/>
       <br/>
       
@@ -49,11 +52,13 @@ class PeoplePage extends Component {
 // TypeChecking for properties
 PeoplePage.propTypes = {
   loadPeople: PropTypes.func.isRequired,
-  people: PropTypes.object
+  people: PropTypes.array,
+  browse: PropTypes.object
 };
 
 const mapStateToProps = (state) => ({
-  people: state.aloha.people
+  people: state.aloha.people,
+  browse: state.aloha.browse
 });
 
 export default connect(mapStateToProps, { loadPeople })(PeoplePage);
