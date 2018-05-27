@@ -12,9 +12,9 @@ api = Api(app)
 class Messages(Resource):
     def get(self):
         conn = e.connect()
-        query = conn.execute("select distinct data from messages where tosend")
+        query = conn.execute("select distinct data from messages WHERE not tosend")
         return_value = {'messages': [json.loads(i[0]) for i in query.cursor.fetchall()]}
-        conn.execute("delete from messages")
+        conn.execute("delete from messages WHERE not tosend")
         return return_value
 
 class Message(Resource):
