@@ -1,41 +1,122 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SafetyCheck from '../components/SafetyCheck';
 import { connect } from 'react-redux';
-import { loadAboutMe } from '../../../actions/aloha';
+import TextField from '@material-ui/core/TextField';
+import styles from './SafetyCheckPage.scss';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import Button from '@material-ui/core/Button';
+import Chips from '../components/Chips';
+import { savePerson } from '../../../actions/aloha';
 
 class SafetyCheckPage extends Component {
-  componentDidMount() {
-    this.props.loadAboutMe();
+
+  constructor(args) {
+    super(args);
+    this.state = {
+      firstName: '',
+      lastName: '',
+      status: 'SAFE',
+      description: '',
+      tags: ['tout-va-bien', 'saint-martin', 'en-vie']
+    };
   }
 
+  onFormChanged = (field, target) => {
+    switch (field) {
+    case 'firstName':
+    case 'lastName':
+    case 'description':
+    case 'status':
+      this.setState({ [field]: target.target.value });
+      break;
+    case 'tags':
+      this.setState({ tags: target });
+      break;
+    }
+  };
+
+  onSubmit = () => {
+    console.log(this.state);
+    this.props.savePerson(this.state);
+  };
+
   render() {
-    if (!this.props.aboutme) {
-      return <div>Loading</div>;
-    }
-    if (!this.props.metadata) {
-      return <SafetyCheck text={this.props.aboutme.text} />;
-    }
     return (
       <div>
-        <SafetyCheck text={this.props.aboutme.text} />
+        <form className={styles.root} autoComplete="off">
+          <TextField
+            id="firstName"
+            label="Prénom de la personne"
+            type="text"
+            className={styles.textField}
+            margin="normal"
+            onChange={(field) => {
+              this.onFormChanged('firstName', field);
+            }}
+          />
+          <TextField
+            id="lastName"
+            label="Nom de la personne"
+            type="text"
+            className={styles.textField}
+            margin="normal"
+            onChange={(field) => {
+              this.onFormChanged('lastName', field);
+            }}
+          />
+          <TextField
+            id="description"
+            label="Description"
+            type="text"
+            multiline
+            rows="4"
+            className={styles.textField}
+            margin="normal"
+            onChange={(field) => {
+              this.onFormChanged('description', field);
+            }}
+          />
+          <FormControl className={styles.formControl}>
+            <InputLabel htmlFor="age-simple">Etat de santé</InputLabel>
+            <Select
+              value={this.state.status}
+              onChange={this.handleChange}
+              inputProps={{
+                name: 'status',
+                id: 'status',
+              }}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value={'SAFE'}>Sain et sauf</MenuItem>
+              <MenuItem value={'DANGER'}>En vie, mais blessé</MenuItem>
+              <MenuItem value={'DEAD'}>Décédé</MenuItem>
+            </Select>
+          </FormControl>
+          <Chips tags={this.state.tags} onChange={(target) => this.onFormChanged('tags', target)}/>
+        </form>
+        <Button variant="raised" color="primary" className={styles.button} onClick={this.onSubmit}>
+          Envoyer
+        </Button>
       </div>
     );
   }
 }
 
 
-
 // TypeChecking for properties
 SafetyCheckPage.propTypes = {
-  loadAboutMe: PropTypes.func.isRequired,
-  aboutme: PropTypes.object,
-  metadata: PropTypes.object
+  browse: PropTypes.object,
+  savePerson: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
-  aboutme: state.cv.aboutme,
-  metadata: state.cv.metadata
+  browse: state.aloha.browse
 });
 
-export default connect(mapStateToProps, { loadAboutMe })(SafetyCheckPage);
+export default connect(mapStateToProps, { savePerson })(SafetyCheckPage);

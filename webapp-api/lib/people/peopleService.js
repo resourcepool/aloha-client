@@ -201,7 +201,6 @@ const _getKeywords = (person) => {
 
 const insert = async (reqBody) => {
   // TODO wrap in db.serialize
-  console.log(JSON.stringify(_getKeywords(reqBody)));
   let params = [reqBody.id, _capitalize(reqBody.firstName), _capitalize(reqBody.lastName), reqBody.status, reqBody.description, JSON.stringify(reqBody.tags), JSON.stringify(_getKeywords(reqBody))];
   let stmt = db.prepare("INSERT INTO person VALUES (?, ?, ?, ?, ?, ?, ?)");
 

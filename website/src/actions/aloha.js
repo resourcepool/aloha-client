@@ -21,3 +21,27 @@ const loadPeopleAsync = (offset, limit, filter) => ({
 export const loadPeople = (offset, limit, filter) => dispatch => {
   return dispatch(loadPeopleAsync(offset, limit, filter));
 };
+
+
+/*------------------------------------------------------------------------------------------
+ * Loads PEOPLE
+ *-----------------------------------------------------------------------------------------*/
+export const SAVE_PERSON_REQUEST = 'SAVE_PERSON_REQUEST';
+export const SAVE_PERSON_SUCCESS = 'SAVE_PERSON_SUCCESS';
+export const SAVE_PERSON_FAILURE = 'SAVE_PERSON_FAILURE';
+const savePersonAsync = (person) => ({
+  [CALL_API]: {
+    types: [
+      SAVE_PERSON_REQUEST,
+      SAVE_PERSON_SUCCESS,
+      SAVE_PERSON_FAILURE
+    ],
+    endpoint: 'people',
+    body: person,
+    method: 'POST'
+  }
+});
+
+export const savePerson = (person) => dispatch => {
+  return dispatch(savePersonAsync(person));
+};

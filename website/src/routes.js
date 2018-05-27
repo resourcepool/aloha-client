@@ -19,7 +19,7 @@ class Routes extends Component {
         />
         <Route
           path="/safetycheck"
-          component={safetycheck.components.CheckPage}
+          component={safetycheck.components.SafetyCheckPage}
         />
         <Redirect exact from="/" to="/people" />
       </Switch>
