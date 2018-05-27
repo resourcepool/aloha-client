@@ -16,13 +16,14 @@ const retrieveAll = async () => {
 
 const _buildQuery = (person) => {
   let qs = "?";
-  qs += '&firstName= ' + person.firstName;
-  qs += '&lastName= ' + person.lastName;
-  qs += '&description= ' + person.description;
-  qs += '&status= ' + person.status;
+  qs += '&firstName=' + person.firstName;
+  qs += '&lastName=' + person.lastName;
+  qs += '&description=' + person.description;
+  qs += '&status=' + person.status;
   for (let i in person.tags) {
-    qs += '&tag= ' + person.tags[i];
+    qs += '&tags=' + person.tags[i];
   }
+  return qs;
 };
 
 const broadcast = async (person) => {

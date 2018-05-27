@@ -27,10 +27,10 @@ class Message(Resource):
         messages = [i[0] for i in query.cursor.fetchall()]
         for message in messages:
             message = json.loads(message)
-            if(uid == message["uid"]):
+            if(uid == message["id"]):
                 return "Message with uid {} already exists".format(uid), 400
         message = {
-                "uid": uid,
+                "id": uid,
                 "firstName": request.form["firstName"],
                 "lastName": request.form["lastName"],
                 "status": request.form["status"],
@@ -41,7 +41,7 @@ class Message(Resource):
         conn.execute('insert into messages (data,tosend) values (?,?)', json.dumps(message), True)
         conn.close()
         return  "Message added with uid {}".format(uid), 200
-      
+
 api.add_resource(Messages, "/messages")
 api.add_resource(Message, "/message/<string:uid>")
 app.run(debug=True)
