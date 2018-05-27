@@ -14,7 +14,8 @@
     "ora": "^2.0.0",
     "sharp": "^0.19.1",
     "sqlite3": "^4.0.0",
-    "stream-transform": "^1.0.2"
+    "stream-transform": "^1.0.2",
+    "uuid": "^3.2.1"
   },
   "devDependencies": {},
   "scripts": {

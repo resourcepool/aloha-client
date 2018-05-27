@@ -1,5 +1,7 @@
 const sqlite3 = require('sqlite3').verbose();
 const PersonRowMapper = require('./personRowMapper');
+const uuidv4 = require('uuid/v4');
+
 const DEFAULT_LIMIT = 20;
 const DEFAULT_OFFSET = 0;
 
@@ -10,6 +12,7 @@ const init = async () => {
   db.serialize(() => {
     db.run("CREATE TABLE person (id TEXT, firstName TEXT, lastName TEXT, status TEXT, description TEXT, tags TEXT, keywords TEXT)");
     insert({
+        "id": uuidv4(),
       "firstName": "Loïc",
       "lastName": "Ortola",
       "status": "SAFE",
@@ -23,6 +26,7 @@ const init = async () => {
       ]
     });
     insert({
+        "id": uuidv4(),
       "firstName": "Nicolas",
       "lastName": "Raymond",
       "status": "SAFE",
@@ -36,6 +40,7 @@ const init = async () => {
       ]
     });
     insert({
+        "id": uuidv4(),
       "firstName": "Nicolas",
       "lastName": "Blin",
       "status": "SAFE",
@@ -48,6 +53,7 @@ const init = async () => {
       ]
     });
     insert({
+        "id": uuidv4(),
       "firstName": "Florian",
       "lastName": "Adonis",
       "status": "SAFE",
@@ -62,6 +68,7 @@ const init = async () => {
       ]
     });
     insert({
+        "id": uuidv4(),
       "firstName": "Philippe",
       "lastName": "Clopeau",
       "status": "DEAD",
@@ -77,6 +84,7 @@ const init = async () => {
       ]
     });
     insert({
+        "id": uuidv4(),
       "firstName": "Gael",
       "lastName": "Musquet",
       "status": "DANGER",
@@ -93,6 +101,7 @@ const init = async () => {
       ]
     });
     insert({
+        "id": uuidv4(),
       "firstName": "Quentin",
       "lastName": "Laudereau",
       "status": "DANGER",
@@ -201,6 +210,9 @@ const _getKeywords = (person) => {
 
 const insert = async (reqBody) => {
   // TODO wrap in db.serialize
+  if (!reqBody.id) {
+      reqBody.id = uuidv4();
+  }
   let params = [reqBody.id, _capitalize(reqBody.firstName), _capitalize(reqBody.lastName), reqBody.status, reqBody.description, JSON.stringify(reqBody.tags), JSON.stringify(_getKeywords(reqBody))];
   let stmt = db.prepare("INSERT INTO person VALUES (?, ?, ?, ?, ?, ?, ?)");
 
