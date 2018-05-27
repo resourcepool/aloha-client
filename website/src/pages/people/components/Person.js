@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
@@ -34,7 +33,6 @@ class Person extends Component {
   getSkillset(project) {
     let result = [];
     project.tags.forEach((s, i) => {
-      console.log(s);
       result.push(<Skill label={s} key={i}/>);
     });
     return result;

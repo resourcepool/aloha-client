@@ -16,6 +16,10 @@ class PeoplePage extends Component {
   componentDidMount() {
     this.props.loadPeople(FIRST_OFFSET, DEFAULT_LIMIT);
   }
+  
+  onFilterTyped = (filter) => {
+    this.props.loadPeople(FIRST_OFFSET, DEFAULT_LIMIT, filter.target.value);
+  };
 
   render() {
     let results = [];
@@ -38,6 +42,7 @@ class PeoplePage extends Component {
         type="search"
         className={styles.textField}
         margin="normal"
+        onChange={this.onFilterTyped}
       />
 
       <br/>
