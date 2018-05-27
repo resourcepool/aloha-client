@@ -119,66 +119,66 @@ const init = async () => {
 };
 
 const find = async (limit, offset, search) => {
-  // TODO wrap in db.serialize
-  let p = new Promise((resolve, reject) => {
-    let results = [];
+    // TODO wrap in db.serialize
+      let p = new Promise((resolve, reject) => {
+          let results = [];
 
-    let whereClauses = [];
-    let values = [];
-    if (search && search.length >= 1) {
-      whereClauses.push("keywords LIKE ?");
-      values.push('%' + _normalizeStr(search) + '%');
-    }
+          let whereClauses = [];
+          let values = [];
+          if (search && search.length >= 1) {
+              whereClauses.push("keywords LIKE ?");
+              values.push('%' + _normalizeStr(search) + '%');
+          }
 
-    let whereClause = "";
-    if (whereClauses.length > 0) {
-      whereClause = " WHERE ";
-      for (let i = 0; i < whereClauses.length; i++) {
-        whereClause += whereClauses[i];
-        if (i < whereClauses.length - 1) {
-          whereClause += ' ';
-        }
-      }
-    }
+          let whereClause = "";
+          if (whereClauses.length > 0) {
+              whereClause = " WHERE ";
+              for (let i = 0; i < whereClauses.length; i++) {
+                  whereClause += whereClauses[i];
+                  if (i < whereClauses.length - 1) {
+                      whereClause += ' ';
+                  }
+              }
+          }
 
-    let limitStr = " LIMIT ";
-    if (offset > DEFAULT_OFFSET) {
-      limitStr += offset + ", " + limit;
-    } else {
-      limitStr += limit;
-    }
+          let limitStr = " LIMIT ";
+          if (offset > DEFAULT_OFFSET) {
+              limitStr += offset + ", " + limit;
+          } else {
+              limitStr += limit;
+          }
 
-    let query = "SELECT * FROM person" + whereClause + limitStr;
+          let query = "SELECT * FROM person" + whereClause + limitStr;
 
-    let stmt = db.prepare(query);
+          let stmt = db.prepare(query);
 
-    stmt.each(values, (err, row) => {
-      results.push(PersonRowMapper.map(row));
-    }, () => {
-      resolve(results);
-    });
-  });
+          stmt.each(values, (err, row) => {
+              results.push(PersonRowMapper.map(row));
+          }, () => {
+              resolve(results);
+          });
+      });
 
-  let results = await p;
+      let results = await p;
 
-  let p2 = new Promise((resolve, reject) => {
-    let stmt = db.prepare("SELECT COUNT(*) FROM person");
-    stmt.run((err, count) => {
-      resolve(count);
-    });
-  });
+      let p2 = new Promise((resolve, reject) => {
+          let stmt = db.prepare("SELECT COUNT(*) FROM person");
+          stmt.run((err, count) => {
+              resolve(count);
+          });
+      });
 
-  let count = await p2;
+      let count = await p2;
 
-  let wrapper = {
-    "offset": offset,
-    "limit": limit,
-    "total": count || -1,
-    "filter": search,
-    "items": results
-  };
+      let wrapper = {
+          "offset": offset,
+          "limit": limit,
+          "total": count || -1,
+          "filter": search,
+          "items": results
+      };
 
-  return wrapper;
+      return wrapper;
 };
 
 const _capitalize = (phrase) => {

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const Logger = require('./lib/log/Logger')();
 const Spinner = Logger.spinner();
 const cors = require('cors');
+const cronJob = require('./lib/utils/cronForDB');
 
 const PeopleController = require('./lib/poi/peopleController');
 
@@ -36,6 +37,10 @@ const init = async () => {
     Logger.info('Initializing app');
     Spinner.start('Connecting to Database');
     Spinner.succeed();
+    Spinner.start('Starting cron job');
+    cronJob.startJob(() => {
+        Spinner.succeed();
+    });
     await PeopleController.init();
     await initEndpoints();
 };
