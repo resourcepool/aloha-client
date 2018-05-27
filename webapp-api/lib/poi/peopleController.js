@@ -1,5 +1,6 @@
 // FIXME const CommService = require('../message/commService');
 const PeopleService = require('../people/peopleService');
+const Logger = require('../log/Logger')();
 
 const DEFAULT_LIMIT = 20;
 const DEFAULT_OFFSET = 0;
@@ -10,20 +11,25 @@ const init = async () => {
 
 const onGet = async (req, res) => {
   let result;
-  result = await PeopleService.find(req.params.limit || DEFAULT_LIMIT, req.params.offset || DEFAULT_OFFSET, req.params.search);
+  try {
+  result = await PeopleService.find(req.query.limit || DEFAULT_LIMIT, req.query.offset || DEFAULT_OFFSET, req.query.filter);
   result = JSON.stringify(result);
   res.send(result);
+  } catch(e) {
+    Logger.error(e);
+    res.sendStatus(500);
+  }
 };
 
 const onPost = async (req, res) => {
   try {
       await PeopleService.insert(req.body);
-      res.send('OK');
+      res.sendStatus(200);
   } catch(e) {
-    console.log(e);
-    res.send('NOT OK');
+    Logger.error(e);
+    res.sendStatus(500);
   }
-}
+};
 
 module.exports = {
   init,

@@ -9,8 +9,103 @@ const init = async () => {
   // INITIALIZE SQLITE
   db.serialize(() => {
     db.run("CREATE TABLE person (id TEXT, firstName TEXT, lastName TEXT, status TEXT, description TEXT, tags TEXT)");
-    db.run('INSERT INTO person VALUES ("1234", "Loic", "Ortola", "SAFE", "Coucou", "[]")');
-    db.run('INSERT INTO person VALUES ("12344", "LOLO", "Ortolo", "SAFE", "Coucou", "[]")');
+    insert({
+      "firstName": "Loïc",
+      "lastName": "Ortola",
+      "status": "SAFE",
+      "description": "Il va bien. Il Dormait comme un bébé, n'a même pas senti la tornade passer.",
+      "tags": [
+        "tout-va-bien",
+        "st-martin",
+        "homme",
+        "chauve",
+        "tatouage"
+      ]
+    });
+    insert({
+      "firstName": "Nicolas",
+      "lastName": "Raymond",
+      "status": "SAFE",
+      "description": "Il a attrapé un rhume, mais au final tout va bien aussi.",
+      "tags": [
+        "tout-va-bien",
+        "st-martin",
+        "homme",
+        "jeune",
+        "lunettes"
+      ]
+    });
+    insert({
+      "firstName": "Nicolas",
+      "lastName": "Blin",
+      "status": "SAFE",
+      "description": "Quelques épines du à une chute de JavaScript devant sa maison, mais lui et sa famille vont bien.",
+      "tags": [
+        "tout-va-bien",
+        "st-martin",
+        "homme",
+        "jeune"
+      ]
+    });
+    insert({
+      "firstName": "Florian",
+      "lastName": "Adonis",
+      "status": "SAFE",
+      "description": "N'a pas dormi depuis longtemps, mais est en parfaite santé en dehors de cela.",
+      "tags": [
+        "tout-va-bien",
+        "st-martin",
+        "homme",
+        "jeune",
+        "mince",
+        "musclé"
+      ]
+    });
+    insert({
+      "firstName": "Philippe",
+      "lastName": "Clopeau",
+      "status": "DEAD",
+      "description": "N'a pas survécu à la chute vertigineuse de toutes ses responsabilités après l'accident. Pourtant, la France lui avait bien dit que tout était préparé pour éviter la catastrophe.",
+      "tags": [
+        "décédé",
+        "st-martin",
+        "homme",
+        "souriant",
+        "mince",
+        "radio-amateur",
+        "grand-gourou"
+      ]
+    });
+    insert({
+      "firstName": "Gael",
+      "lastName": "Musquet",
+      "status": "DANGER",
+      "description": "Est actuellement hospitalisé suite à la chute de son antenne décamétrique sur la tête après le cataclysme. Son pronostic vital est engagé.",
+      "tags": [
+        "en-danger",
+        "st-martin",
+        "homme",
+        "souriant",
+        "mince",
+        "radio-amateur",
+        "grand-gourou",
+        "aime-les-tesla"
+      ]
+    });
+    insert({
+      "firstName": "Quentin",
+      "lastName": "Laudereau",
+      "status": "DANGER",
+      "description": "A tenté de sauver de nombreux groupes en perdition, est épuisé et se repose actuellement à l'hopital Sainte ANFR.",
+      "tags": [
+        "blessé",
+          "tout-va-bien",
+        "st-martin",
+        "homme",
+        "souriant",
+        "barbu"
+      ]
+    });
   });
 };
 
@@ -22,10 +117,15 @@ const find = async (limit, offset, search) => {
     let whereClauses = [];
     let values = [];
     if (search && search.length >= 1) {
-      whereClauses.push("description LIKE ?");
+      whereClauses.push("(description LIKE ?");
+      whereClauses.push("OR firstName LIKE ?");
+      whereClauses.push("OR lastName LIKE ?");
+      whereClauses.push("OR tags LIKE ?)");
+      values.push('%' + search + '%');
+      values.push('%' + search + '%');
+      values.push('%' + search + '%');
       values.push('%' + search + '%');
     }
-
 
     let whereClause = "";
     if (whereClauses.length > 0) {
@@ -33,7 +133,7 @@ const find = async (limit, offset, search) => {
       for (let i = 0; i < whereClauses.length; i++) {
         whereClause += whereClauses[i];
         if (i < whereClauses.length - 1) {
-          whereClause += ' AND ';
+          whereClause += ' ';
         }
       }
     }
@@ -46,12 +146,10 @@ const find = async (limit, offset, search) => {
     }
 
     let query = "SELECT * FROM person" + whereClause + limitStr;
-    console.log(query);
 
     let stmt = db.prepare(query);
 
     stmt.each(values, (err, row) => {
-      console.log(err);
       results.push(PersonRowMapper.map(row));
     }, () => {
       resolve(results);
@@ -81,9 +179,9 @@ const find = async (limit, offset, search) => {
 };
 
 const insert = async (reqBody) => {
-
-  let params = [reqBody.id, reqBody.firstName, reqBody.lastName, reqBody.status, reqBody.description, reqBody.tags]
-  let stmt  = db.prepare("INSERT INTO person VALUES (?, ?, ?, ?, ?, ?)");
+  // TODO wrap in db.serialize
+  let params = [reqBody.id, reqBody.firstName, reqBody.lastName, reqBody.status, reqBody.description, JSON.stringify(reqBody.tags)]
+  let stmt = db.prepare("INSERT INTO person VALUES (?, ?, ?, ?, ?, ?)");
 
   stmt.run(params, () => {
     console.log("INSERTED");
@@ -92,6 +190,6 @@ const insert = async (reqBody) => {
 
 module.exports = {
   init,
-    find,
-    insert
+  find,
+  insert
 };

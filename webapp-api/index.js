@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const Logger = require('./lib/log/Logger')();
 const Spinner = Logger.spinner();
+const cors = require('cors');
 
 const PeopleController = require('./lib/poi/peopleController');
 
@@ -14,7 +15,7 @@ const initEndpoints = async () => {
     let app = express();
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: true}));
-
+    app.use(cors());
 
     ///////// PEOPLE ///////////////
 
