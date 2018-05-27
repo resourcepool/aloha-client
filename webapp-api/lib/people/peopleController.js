@@ -1,5 +1,5 @@
 // FIXME const CommService = require('../message/commService');
-import MessageService from "./messageService";
+const MessageService = require("./messageService");
 
 const PeopleService = require('../people/peopleService');
 const Logger = require('../log/Logger')();

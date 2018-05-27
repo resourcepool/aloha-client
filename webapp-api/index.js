@@ -5,7 +5,7 @@ const Spinner = Logger.spinner();
 const cors = require('cors');
 const cronJob = require('./lib/utils/cronForDB');
 
-const PeopleController = require('./lib/poi/peopleController');
+const PeopleController = require('./lib/people/peopleController');
 
 const setGlobalHeaders = async (req, res, next) => {
     res.header('Content-Type', 'application/json');

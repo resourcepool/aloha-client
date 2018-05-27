@@ -218,14 +218,20 @@ const insert = async (reqBody) => {
 
   let p = new Promise((resolve, reject) => {
     stmt.run(params, () => {
-      resolve();
+      resolve(reqBody);
     });
   });
   return await p;
 };
 
+const insertAll = async (data) => {
+  let ps = data.map((e) => insert(e));
+  await Promise.all(ps);
+};
+
 module.exports = {
   init,
   find,
-  insert
+  insert,
+  insertAll
 };
