@@ -81,8 +81,8 @@ class RN2483(object):
                 if result.decode("utf-8") and result.decode("utf-8") != "busy" and result.decode("utf-8") != "ok" and result.decode("utf-8") != "radio rx 0":
                         message = result.decode("utf-8").rstrip("\n").split(" ")[2].rstrip("\r")
                         e = create_engine('sqlite:///./messages.db')
-                        e.execute('insert into messages (data) values (?)', json.dumps(unhexlify(message).decode("utf-8")))
-                        print(unhexlify(message).decode("utf-8"))
+                        e.execute('insert into messages (data,tosend) values (?,?)', json.dumps(unhexlify(message).decode("utf-8")), False)
+                        print("Inserting received message ```%s``` into database." % unhexlify(message).decode("utf-8"))
                         result = self.command("radio rx 0")
                         if result.decode("utf-8") != "ok" and result.decode("utf-8") != "busy":
                             print("Weird result: %s" % (result.decode("utf-8")))
