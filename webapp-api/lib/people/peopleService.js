@@ -8,7 +8,7 @@ const db = new sqlite3.Database(':memory:');
 const init = async () => {
   // INITIALIZE SQLITE
   db.serialize(() => {
-    db.run("CREATE TABLE person (id TEXT, firstName TEXT, lastName TEXT, status TEXT, description TEXT, tags TEXT)");
+    db.run("CREATE TABLE person (id TEXT, firstName TEXT, lastName TEXT, status TEXT, description TEXT, tags TEXT, keywords TEXT)");
     insert({
       "firstName": "Loïc",
       "lastName": "Ortola",
@@ -117,14 +117,8 @@ const find = async (limit, offset, search) => {
     let whereClauses = [];
     let values = [];
     if (search && search.length >= 1) {
-      whereClauses.push("(description LIKE ?");
-      whereClauses.push("OR firstName LIKE ?");
-      whereClauses.push("OR lastName LIKE ?");
-      whereClauses.push("OR tags LIKE ?)");
-      values.push('%' + search + '%');
-      values.push('%' + search + '%');
-      values.push('%' + search + '%');
-      values.push('%' + search + '%');
+      whereClauses.push("keywords LIKE ?");
+      values.push('%' + _normalizeStr(search) + '%');
     }
 
     let whereClause = "";
@@ -178,14 +172,45 @@ const find = async (limit, offset, search) => {
   return wrapper;
 };
 
+const _capitalize = (phrase) => {
+  return phrase
+      .split(' ')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(' ');
+};
+
+const _normalizeStr = (phrase) => {
+  return phrase.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+};
+
+const _normalize = (map, table) => {
+  for (let i in table) {
+    map[_normalizeStr(table[i])] = true;
+  }
+  return map;
+};
+
+const _getKeywords = (person) => {
+  let keywordsMap = {};
+  _normalize(keywordsMap, person.description.split(' '));
+  _normalize(keywordsMap, person.firstName.split(' '));
+  _normalize(keywordsMap, person.lastName.split(' '));
+  _normalize(keywordsMap, person.tags);
+  return Object.keys(keywordsMap);
+};
+
 const insert = async (reqBody) => {
   // TODO wrap in db.serialize
-  let params = [reqBody.id, reqBody.firstName, reqBody.lastName, reqBody.status, reqBody.description, JSON.stringify(reqBody.tags)]
-  let stmt = db.prepare("INSERT INTO person VALUES (?, ?, ?, ?, ?, ?)");
+  console.log(JSON.stringify(_getKeywords(reqBody)));
+  let params = [reqBody.id, _capitalize(reqBody.firstName), _capitalize(reqBody.lastName), reqBody.status, reqBody.description, JSON.stringify(reqBody.tags), JSON.stringify(_getKeywords(reqBody))];
+  let stmt = db.prepare("INSERT INTO person VALUES (?, ?, ?, ?, ?, ?, ?)");
 
-  stmt.run(params, () => {
-    console.log("INSERTED");
-  })
+  let p = new Promise((resolve, reject) => {
+    stmt.run(params, () => {
+      resolve();
+    });
+  });
+  return await p;
 };
 
 module.exports = {
