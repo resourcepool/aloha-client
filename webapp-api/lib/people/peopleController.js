@@ -1,4 +1,6 @@
 // FIXME const CommService = require('../message/commService');
+import MessageService from "./messageService";
+
 const PeopleService = require('../people/peopleService');
 const Logger = require('../log/Logger')();
 
@@ -23,7 +25,8 @@ const onGet = async (req, res) => {
 
 const onPost = async (req, res) => {
   try {
-      await PeopleService.insert(req.body);
+      const insertedPerson = await PeopleService.insert(req.body);
+      await MessageService.broadcast(insertedPerson);
       res.sendStatus(200);
   } catch(e) {
     Logger.error(e);
